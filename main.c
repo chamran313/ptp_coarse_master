@@ -496,9 +496,9 @@ void udp_receive_callback(void *arg, struct udp_pcb *upcb,
 								ptp_timeout = 0;
 						 #endif
 							
-						 /*target_time.TimeStampHigh = ETH->PTPTSHR;
-						 target_time.TimeStampLow = (ETH->PTPTSLR) + 20000 ;
-						 load_target_time(&target_time);*/
+						 target_time.TimeStampHigh = ETH->PTPTSHR;
+						 target_time.TimeStampLow = (ETH->PTPTSLR) + 100000 ;
+						 load_target_time(&target_time);
 						}
 						
 				else if(rcv_buf[0]== 0x66)   // unmatch hdr bw master & slave (coarse nok) recieved
