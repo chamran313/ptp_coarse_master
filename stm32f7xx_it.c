@@ -236,6 +236,20 @@ void ETH_IRQHandler(void)
 			for(ethi=0; ethi<5000; ethi++){}
 			HAL_GPIO_WritePin(GPIOG, GPIO_PIN_2, 0);*/
 			HAL_GPIO_TogglePin(GPIOG, GPIO_PIN_2);
+			
+			ETH->PTPTTLR = ETH->PTPTTLR + 99000000; //99ms
+			if(ETH->PTPTTLR < 99000000 ) 	ETH->PTPTTHR = ETH->PTPTTHR +1;
+			/*if(ETH->PTPTTLR > 999999990 )  // agar sarriz nemishe	
+				{
+				ETH->PTPTTHR = ETH->PTPTTHR +1;
+				ETH->PTPTTLR = ETH->PTPTTLR	
+				}*/
+			
+			
+	
+			ETH->MACIMR &= 0XFFFFFDFF; // unmask timestamp trigger interrupt
+	
+			ETH->PTPTSCR |= 0x00000010 ; //Time stamp interrupt trigger enable
 			//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
 		}
 

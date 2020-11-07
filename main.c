@@ -58,7 +58,7 @@
 #define LWIP_PTP
 #define ptp_tout
 
-#define synq_interval  998
+#define synq_interval  500
 #define ptp_port		1234
 /* USER CODE END Includes */
 
@@ -192,6 +192,10 @@ int main(void)
 	
 	//HAL_TIM_Base_Start_IT(&htim2);
   HAL_TIM_Base_Start_IT(&htim4);
+	
+	target_time.TimeStampHigh = 30;
+	target_time.TimeStampLow = 0;
+	load_target_time(&target_time);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -323,6 +327,7 @@ static void MX_TIM4_Init(void)
   htim4.Init.Prescaler = 1000;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim4.Init.Period = 99;// hclk = 200MHz -> period = 10.01us -- 100*10.01=1ms
+													//hclk = 100MHz -> period = 10.01us -- 100*10=1ms
 	
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -496,9 +501,9 @@ void udp_receive_callback(void *arg, struct udp_pcb *upcb,
 								ptp_timeout = 0;
 						 #endif
 							
-						 target_time.TimeStampHigh = ETH->PTPTSHR;
+						 /*target_time.TimeStampHigh = ETH->PTPTSHR;
 						 target_time.TimeStampLow = (ETH->PTPTSLR) + 100000 ;
-						 load_target_time(&target_time);
+						 load_target_time(&target_time);*/
 						}
 						
 				else if(rcv_buf[0]== 0x66)   // unmatch hdr bw master & slave (coarse nok) recieved
