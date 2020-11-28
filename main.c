@@ -58,7 +58,7 @@
 #define LWIP_PTP
 #define ptp_tout
 
-#define synq_interval  500
+#define synq_interval  60
 #define ptp_port		1234
 /* USER CODE END Includes */
 
@@ -405,8 +405,8 @@ void ptp_start(void)
 	//assert_param(IS_ETH_PTP_UPDATE(UpdateMethod));
 	ETH->MACIMR |=  0x200;  // disable timestamp trigger interrupt generation
   ETH-> PTPTSCR |= 0x00000001;   // enable ptp time stamping
-	ETH-> PTPSSIR = 5;      // sub_second increment register  0XA:FOR 96MHZ
-													// : 5 FOR 216MHZ
+	ETH-> PTPSSIR = 5;      // sub_second increment register  0XA:FOR 100MHZ
+													// : 5 FOR 200MHZ
 	
 	ETH->PTPTSCR |= 0x00000200; // sub_second reg overflow when recieve 999 999 999
 	
